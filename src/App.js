@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import UserInput from "./UserMaker/UserInput/UserInput";
+import UserList from './UserMaker/UserList/UserList';
 
-function App() {
+const App = () => {
+  const [users, setUser] = useState([
+    { user: "Matthew", age: 35, id: "g1" }
+  ]);
+
+  const addUserHandler = (enteredName, enteredAge) => {
+    setUser((prevUsers) => {
+      return [...prevUsers, {user: enteredName, age: enteredAge}];
+      // updatedUsers.unshift({
+      //   user: enteredName,
+      //   age: enteredAge,
+      //   id: Math.random().toString(),
+      // });
+      // return updatedUsers;
+    });
+  };
+
+  let content = <p>No Users Found. Add one!</p>;
+
+  if (users.length > 0) {
+    content = (
+    <UserList items={users} />
+    );
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <UserInput onAddUser={addUserHandler} />
+        {content}
     </div>
   );
 }
